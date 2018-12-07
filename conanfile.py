@@ -56,7 +56,7 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
                         os.remove(os.path.join(lib_dir,f))
 
     def requirements(self):
-        self.requires("LibreSSL/2.8.2@rgpaul/stable")
+        self.requires("LibreSSL/2.8.2@%s/%s" % (self.user, self.channel))
 
 #    def package(self):
 #        self.copy("*", dst="include", src='include')
