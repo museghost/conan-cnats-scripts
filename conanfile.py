@@ -3,7 +3,7 @@ import os
 
 class CNatsConan(ConanFile):
     name = "CNats"
-    version = "1.7.6"
+    version = "1.8.0"
     author = "Ralph-Gordon Paul (gordon@rgpaul.com)"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "android_ndk": "ANY", "android_stl_type":["c++_static", "c++_shared"]}
