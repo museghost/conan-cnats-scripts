@@ -12,7 +12,7 @@ class CNatsConan(ConanFile):
     url = "https://github.com/Manromen/conan-cnats-scripts"
     license = "Apache-2.0"
     exports_sources = "cmake-modules/*"
-    generators = "cmake"
+    generators = "cmake_paths"
 
     # download sources
     def source(self):
@@ -22,8 +22,7 @@ class CNatsConan(ConanFile):
         tools.replace_in_file("%s/cnats-%s/CMakeLists.txt" % (self.source_folder, self.version),
             "project(cnats)",
             """project(cnats)
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup() """)
+include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
 
     # compile using cmake
     def build(self):

@@ -42,7 +42,7 @@ function createConanPackage()
 # create packages for all architectures and build types
 
 createConanPackage x86_64 Release
-#createConanPackage x86_64 Debug
+createConanPackage x86_64 Debug
 
 # arch x86 is deprecated on macos, so we won't build for x86
 
