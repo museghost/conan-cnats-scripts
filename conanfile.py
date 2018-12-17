@@ -2,7 +2,7 @@ from conans import ConanFile, CMake, tools
 import os
 
 class CNatsConan(ConanFile):
-    name = "CNats"
+    name = "cnats"
     version = "1.8.0"
     author = "Ralph-Gordon Paul (gordon@rgpaul.com)"
     settings = "os", "compiler", "build_type", "arch"
@@ -56,15 +56,7 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
                         os.remove(os.path.join(lib_dir,f))
 
     def requirements(self):
-        self.requires("LibreSSL/2.8.2@%s/%s" % (self.user, self.channel))
-
-#    def package(self):
-#        self.copy("*", dst="include", src='include')
-#        self.copy("*.lib", dst="lib", src='lib', keep_path=False)
-#        self.copy("*.dll", dst="bin", src='bin', keep_path=False)
-#        self.copy("*.so", dst="lib", src='lib', keep_path=False)
-#        self.copy("*.dylib", dst="lib", src='lib', keep_path=False)
-#        self.copy("*.a", dst="lib", src='lib', keep_path=False)
+        self.requires("libressl/2.8.2@%s/%s" % (self.user, self.channel))
         
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
