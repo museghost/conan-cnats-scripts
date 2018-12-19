@@ -57,6 +57,7 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
 
     def requirements(self):
         self.requires("libressl/2.8.2@%s/%s" % (self.user, self.channel))
+        self.requires("protobufc/1.3.1@%s/%s" % (self.user, self.channel))
         
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
