@@ -38,7 +38,7 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
             cmake.definitions["CMAKE_OSX_ARCHITECTURES"] = tools.to_apple_arch(self.settings.arch)
 
         if self.settings.os == "Linux":
-            cmake.definitions["DCMAKE_SHARED_LINKER_FLAGS"] = "-ldl"
+            cmake.definitions["CMAKE_SHARED_LINKER_FLAGS"] = "-ldl"
 
         library_folder = "%s/cnats-%s" % (self.source_folder, self.version)
 
@@ -68,6 +68,10 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
         self.cpp_info.includedirs = ['include']
+
+        if self.settings.os == "Linux":
+            # Needed to build bundled examples with openssl
+            self.cpp_info.libs.append('dl')
 
     def config_options(self):
         # remove android specific option for all other platforms
