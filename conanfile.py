@@ -3,7 +3,7 @@ import os
 
 class CNatsConan(ConanFile):
     name = "cnats"
-    version = "1.8.0"
+    version = "master"
     author = "Ralph-Gordon Paul (gordon@rgpaul.com)"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "android_ndk": "ANY", "android_stl_type":["c++_static", "c++_shared"]}
@@ -16,8 +16,10 @@ class CNatsConan(ConanFile):
 
     # download sources
     def source(self):
-        url = "https://github.com/nats-io/cnats/archive/v%s.tar.gz" % self.version
-        tools.get(url)
+        source_url = "https://github.com/museghost/cnats.git"
+
+        git = tools.Git(folder="cnats-master")
+        git.clone(source_url, "master")
 
         tools.replace_in_file("%s/cnats-%s/CMakeLists.txt" % (self.source_folder, self.version),
             "project(cnats)",
@@ -30,6 +32,7 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
         cmake.verbose = True
 
         cmake.definitions["NATS_BUILD_WITH_TLS"] = "ON"
+        cmake.definitions["NATS_BUILD_STREAMING"] = "OFF"
 
         if self.settings.os == "Macos":
             cmake.definitions["CMAKE_OSX_ARCHITECTURES"] = tools.to_apple_arch(self.settings.arch)
@@ -56,8 +59,8 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
                         os.remove(os.path.join(lib_dir,f))
 
     def requirements(self):
-        self.requires("libressl/2.8.2@%s/%s" % (self.user, self.channel))
-        self.requires("protobufc/1.3.1@%s/%s" % (self.user, self.channel))
+        self.requires("OpenSSL/1.0.2r@conan/stable")
+        #self.requires("protobufc/1.3.1@conan/stable")
         
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
