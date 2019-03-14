@@ -66,6 +66,10 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
         self.cpp_info.libs = tools.collect_libs(self)
         self.cpp_info.includedirs = ['include']
 
+        if self.settings.os == "Linux":
+            # Needed to build bundled examples with openssl
+            self.cpp_info.libs.append('dl')
+
     def config_options(self):
         # remove android specific option for all other platforms
         if self.settings.os != "Android":
