@@ -29,7 +29,7 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
     # compile using cmake
     def build(self):
         self.run("cd cnats-master && git pull")
-        
+
         cmake = CMake(self)
         cmake.verbose = True
 
@@ -53,6 +53,10 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
             if self.options.shared == False:
                 for f in os.listdir(lib_dir):
                     if f.endswith(".dylib"):
+                        os.remove(os.path.join(lib_dir,f))
+                    elif f.endswith(".so"):
+                        os.remove(os.path.join(lib_dir,f))
+                    elif f.rfind('.so.') != -1:
                         os.remove(os.path.join(lib_dir,f))
                     elif f.endswith("libnats_static.a"):
                         os.rename(os.path.join(lib_dir,f), os.path.join(lib_dir,"libnats.a"))
