@@ -38,7 +38,7 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
             cmake.definitions["CMAKE_OSX_ARCHITECTURES"] = tools.to_apple_arch(self.settings.arch)
 
         if self.settings.os == "Linux":
-            cmake.definitions["CMAKE_SHARED_LINKER_FLAGS"] = "-ldl"
+            cmake.definitions["CMAKE_C_LINKER_FLAGS"] = "-ldl"
 
         library_folder = "%s/cnats-%s" % (self.source_folder, self.version)
 
