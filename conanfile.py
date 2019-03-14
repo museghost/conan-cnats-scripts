@@ -28,6 +28,8 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
 
     # compile using cmake
     def build(self):
+        self.run("cd cnats-master && git pull")
+        
         cmake = CMake(self)
         cmake.verbose = True
 
@@ -37,9 +39,6 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
         if self.settings.os == "Macos":
             cmake.definitions["CMAKE_OSX_ARCHITECTURES"] = tools.to_apple_arch(self.settings.arch)
 
-        if self.settings.os == "Linux":
-            cmake.definitions["CMAKE_C_LINKER_FLAGS"] = "-ldl"
-
         library_folder = "%s/cnats-%s" % (self.source_folder, self.version)
 
         cmake.configure(source_folder=library_folder)
@@ -48,7 +47,8 @@ include(${CMAKE_BINARY_DIR}/conan_paths.cmake) """)
 
         lib_dir = os.path.join(self.package_folder,"lib")
 
-        if self.settings.os == "Macos":
+        # if self.settings.os == "Macos":
+        if self.settings.os in ["Macos", "Linux"]:
             # delete shared artifacts for static builds and the static library for shared builds
             if self.options.shared == False:
                 for f in os.listdir(lib_dir):
